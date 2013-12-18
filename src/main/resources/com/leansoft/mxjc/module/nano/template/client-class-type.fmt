@@ -21,11 +21,9 @@ import ${import};
 [#if clazz.rootElementAnnotation?? && clazz.rootElementAnnotation.parameterProvided]
 @com.leansoft.nano.annotation.${clazz.rootElementAnnotation}
 [/#if]
-[#--
 [#if clazz.xmlTypeAnnotation?? && clazz.xmlTypeAnnotation.parameterProvided]
 @${clazz.xmlTypeAnnotation}
 [/#if]
---]
 [#if clazz.xmlSeeAlsoAnnotation?? && clazz.xmlSeeAlsoAnnotation.parameterProvided]
 @${clazz.xmlSeeAlsoAnnotation}
 [/#if]
