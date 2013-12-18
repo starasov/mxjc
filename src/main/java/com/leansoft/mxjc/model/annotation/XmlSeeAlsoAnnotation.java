@@ -1,5 +1,6 @@
 package com.leansoft.mxjc.model.annotation;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.leansoft.mxjc.model.Annotatable;
@@ -16,22 +17,26 @@ public class XmlSeeAlsoAnnotation implements Annotatable {
         this.seeAlsoClasses = seeAlsoClasses;
     }
 
+    public static XmlSeeAlsoAnnotation empty() {
+        return new XmlSeeAlsoAnnotation(Collections.<String>emptyList());
+    }
+
     @Override
     public boolean isParameterProvided() {
-        return false;
+        return !seeAlsoClasses.isEmpty();
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append("SeeAlso{\n");
+        stringBuilder.append("SeeAlso({\n");
 
         for (String seeAlsoClass : seeAlsoClasses) {
-            stringBuilder.append(seeAlsoClass).append(".class,");
+            stringBuilder.append("    ").append(seeAlsoClass).append(".class,\n");
         }
 
-        stringBuilder.append("}");
+        stringBuilder.append("})");
 
         return stringBuilder.toString();
     }

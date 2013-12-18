@@ -1,8 +1,6 @@
 package com.leansoft.mxjc.builder;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.xml.namespace.QName;
 
@@ -10,10 +8,7 @@ import com.leansoft.mxjc.model.CGModel;
 import com.leansoft.mxjc.model.ClassInfo;
 import com.leansoft.mxjc.model.FieldInfo;
 import com.leansoft.mxjc.model.TypeInfo;
-import com.leansoft.mxjc.model.annotation.AttributeAnnotation;
-import com.leansoft.mxjc.model.annotation.ElementAnnotation;
-import com.leansoft.mxjc.model.annotation.RootElementAnnotation;
-import com.leansoft.mxjc.model.annotation.XmlTypeAnnotation;
+import com.leansoft.mxjc.model.annotation.*;
 import com.leansoft.mxjc.util.ClassNameUtil;
 import com.leansoft.mxjc.util.StringUtil;
 import com.sun.codemodel.ClassType;
@@ -21,11 +16,7 @@ import com.sun.codemodel.JClass;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JType;
 import com.sun.tools.xjc.ErrorReceiver;
-import com.sun.tools.xjc.model.CAttributePropertyInfo;
-import com.sun.tools.xjc.model.CElementInfo;
-import com.sun.tools.xjc.model.CElementPropertyInfo;
-import com.sun.tools.xjc.model.CPropertyInfo;
-import com.sun.tools.xjc.model.CTypeRef;
+import com.sun.tools.xjc.model.*;
 import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
@@ -65,6 +56,8 @@ public class ClassModelBuilder {
 	        // [SAMPLE RESULT]
 	        // @XmlType(name="foo", targetNamespace="bar://baz")
 			classInfo.setXmlTypeAnnotation(getXmlTypeAnnotation(co));
+
+            classInfo.setXmlSeeAlsoAnnotation(getXmlSeeAlsoAnnotation(co));
 			
 			// abstract class?
 			classInfo.setAbstract(co.implClass.isAbstract());
@@ -212,7 +205,7 @@ public class ClassModelBuilder {
 			cgModel.getClasses().add(classInfo);
 		}
     }
-    
+
     private static boolean isNestClass(JType type) {
     	if (type instanceof JClass) {
     		JClass clazz = (JClass)type;
@@ -226,13 +219,13 @@ public class ClassModelBuilder {
     	}
     	return false;
     }
-    
+
     private static XmlTypeAnnotation getXmlTypeAnnotation(ClassOutline co) {
     	XmlTypeAnnotation xmlTypeAnnotation = new XmlTypeAnnotation();
-    	
+
         // used to simplify the generated annotations
         String mostUsedNamespaceURI = co._package().getMostUsedNamespaceURI();
-        
+
         QName typeName = co.target.getTypeName();
         if (typeName == null) {
         	xmlTypeAnnotation.setName(""); // TODO, handle anonymous type
@@ -243,10 +236,26 @@ public class ClassModelBuilder {
 //            if(!typeNameURI.equals(mostUsedNamespaceURI)) // only generate if necessary
             	xmlTypeAnnotation.setNamespace(typeNameURI);
         }
-        
+
         return xmlTypeAnnotation;
     }
-    
+
+    private static XmlSeeAlsoAnnotation getXmlSeeAlsoAnnotation(ClassOutline co) {
+        Iterator<CClassInfo> cClassInfoIterator = co.target.listSubclasses();
+        if (cClassInfoIterator.hasNext()) {
+            List<String> subclasses = new ArrayList<String>();
+
+            while (cClassInfoIterator.hasNext()) {
+                CClassInfo next = cClassInfoIterator.next();
+                subclasses.add(next.getClazz().fullName());
+            }
+
+            return new XmlSeeAlsoAnnotation(subclasses);
+        } else {
+            return XmlSeeAlsoAnnotation.empty();
+        }
+    }
+
     private static RootElementAnnotation getRootElementAnnotation(ClassOutline co, Map<String, QName> mapping, ClassInfo classInfo) {
     	// does this type map to a global element?
     	QName elementName = null;

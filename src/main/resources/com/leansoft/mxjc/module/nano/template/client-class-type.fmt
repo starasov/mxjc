@@ -26,11 +26,9 @@ import ${import};
 @${clazz.xmlTypeAnnotation}
 [/#if]
 --]
-[#--
 [#if clazz.xmlSeeAlsoAnnotation?? && clazz.xmlSeeAlsoAnnotation.parameterProvided]
 @${clazz.xmlSeeAlsoAnnotation}
 [/#if]
---]
 public [#if clazz.abstract]abstract [/#if]class ${clazz.name} [#if clazz.superClass??]extends ${clazz.superClass.name} [/#if]implements Serializable {
 
     private static final long serialVersionUID = -1L;
