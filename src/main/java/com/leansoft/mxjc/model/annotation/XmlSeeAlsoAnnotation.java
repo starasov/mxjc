@@ -25,7 +25,7 @@ public class XmlSeeAlsoAnnotation implements Annotatable {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append("{\n");
+        stringBuilder.append("SeeAlso{\n");
 
         for (String seeAlsoClass : seeAlsoClasses) {
             stringBuilder.append(seeAlsoClass).append(".class,");
