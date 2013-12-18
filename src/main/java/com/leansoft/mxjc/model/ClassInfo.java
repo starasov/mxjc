@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.leansoft.mxjc.model.annotation.RootElementAnnotation;
+import com.leansoft.mxjc.model.annotation.XmlSeeAlsoAnnotation;
 import com.leansoft.mxjc.model.annotation.XmlTypeAnnotation;
 
 /**
@@ -34,7 +35,9 @@ public class ClassInfo {
 	private RootElementAnnotation rootElementAnnotation;
 	
 	private XmlTypeAnnotation xmlTypeAnnotation;
-	
+
+    private XmlSeeAlsoAnnotation xmlSeeAlsoAnnotation;
+
 	// fields of this class
 	private final List<FieldInfo> fields = new ArrayList<FieldInfo>();
 	
@@ -170,7 +173,15 @@ public class ClassInfo {
 		this.xmlTypeAnnotation = xmlTypeAnnotation;
 	}
 
-	/**
+    public XmlSeeAlsoAnnotation getXmlSeeAlsoAnnotation() {
+        return xmlSeeAlsoAnnotation;
+    }
+
+    public void setXmlSeeAlsoAnnotation(XmlSeeAlsoAnnotation xmlSeeAlsoAnnotation) {
+        this.xmlSeeAlsoAnnotation = xmlSeeAlsoAnnotation;
+    }
+
+    /**
 	 * Is this a nest class or not
 	 * 
 	 * @return true if nest class, false otherwise 
