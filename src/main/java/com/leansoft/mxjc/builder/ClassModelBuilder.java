@@ -22,6 +22,7 @@ import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
 import com.sun.xml.bind.api.impl.NameConverter;
+import com.sun.xml.bind.v2.model.core.ID;
 import com.sun.xml.bind.v2.model.core.PropertyKind;
 import com.sun.xml.xsom.XSComponent;
 import com.sun.xml.xsom.XSParticle;
@@ -165,6 +166,13 @@ public class ClassModelBuilder {
 				} else if (cProp.kind() == PropertyKind.REFERENCE) {
 					attrInfo.setAny(true);
 				}
+
+                // ID and IDREF support
+                if (cProp.id() == ID.ID) {
+                    attrInfo.setId(true);
+                } else if (cProp.id() == ID.IDREF) {
+                    attrInfo.setIdRef(true);
+                }
 				
 				// Annotation
 				if (cProp instanceof CElementPropertyInfo) {

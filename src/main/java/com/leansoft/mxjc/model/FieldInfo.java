@@ -28,11 +28,15 @@ public class FieldInfo {
 	private boolean isValue = false;
 	// is schema any, map to any
 	private boolean isAny = false;
-	
+    // is schema ID
+    private boolean isId = false;
+    // is schema IDREF
+    private boolean isIdRef = false;
+
 	private ElementAnnotation elementAnnotation;
 	
 	private AttributeAnnotation attributeAnnotation;
-	
+
 	/**
 	 * doc comment of this field
 	 * @return doc comment
@@ -131,8 +135,24 @@ public class FieldInfo {
 	public void setAny(boolean isAny) {
 		this.isAny = isAny;
 	}
-	
-	public ElementAnnotation getElementAnnotation() {
+
+    public boolean isId() {
+        return isId;
+    }
+
+    public void setId(boolean isId) {
+        this.isId = isId;
+    }
+
+    public boolean isIdRef() {
+        return isIdRef;
+    }
+
+    public void setIdRef(boolean isIdRef) {
+        this.isIdRef = isIdRef;
+    }
+
+    public ElementAnnotation getElementAnnotation() {
 		return elementAnnotation;
 	}
 	
@@ -146,5 +166,5 @@ public class FieldInfo {
 	
 	public void setAttributeAnnotation(AttributeAnnotation attributeAnnotation) {
 		this.attributeAnnotation = attributeAnnotation;
-	}	
+	}
 }

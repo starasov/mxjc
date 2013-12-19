@@ -32,6 +32,12 @@ public [#if clazz.abstract]abstract [/#if]class ${clazz.name} [#if clazz.superCl
     private static final long serialVersionUID = -1L;
 
     [#list clazz.fields as field]
+	[#if field.id]
+	@XmlID
+	[/#if]
+	[#if field.idRef]
+	@XmlIDREF
+	[/#if]
 	[#if field.attribute][#-- map to xml attribute --]
 	  [#if field.attributeAnnotation?? && field.attributeAnnotation.parameterProvided]
 	@${field.attributeAnnotation}
